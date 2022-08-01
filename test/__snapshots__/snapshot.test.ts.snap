@@ -67,6 +67,15 @@ Object {
       },
       "Type": "AWS::Lambda::Function",
     },
+    "PoolCognitoDomainC3A3EAD2": Object {
+      "Properties": Object {
+        "Domain": "super-ultra-hyper-extreme-temporary-app",
+        "UserPoolId": Object {
+          "Ref": "PoolD3F588B8",
+        },
+      },
+      "Type": "AWS::Cognito::UserPoolDomain",
+    },
     "PoolD3F588B8": Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {

@@ -26,6 +26,12 @@ export class TestAppStack extends Stack {
       generateSecret: true,
       refreshTokenValidity: Duration.hours(12),
     });
+    pool.addDomain('CognitoDomain', {
+      cognitoDomain: {
+        // TODO: SHOULD GET VALUE FROM SSM PARAMETER OR SECRETS MANAGER
+        domainPrefix: 'super-ultra-hyper-extreme-temporary-app', // TMP
+      },
+    });
 
     const iamRoleForLambda = new iam.Role(this, 'iamRoleForLambda', {
       roleName: `hello-lambda-role`,
