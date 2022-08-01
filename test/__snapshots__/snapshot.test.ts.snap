@@ -110,6 +110,7 @@ Object {
         "CallbackURLs": Array [
           "http://localhost:3000/api/auth/callback/cognito",
         ],
+        "GenerateSecret": true,
         "RefreshTokenValidity": 720,
         "SupportedIdentityProviders": Array [
           "COGNITO",
