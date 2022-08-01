@@ -21,6 +21,7 @@ export class TestAppStack extends Stack {
           authorizationCodeGrant: true,
         },
         scopes: [cognito.OAuthScope.OPENID],
+        callbackUrls: ['http://localhost:3000/api/auth/callback/cognito'],
       },
     });
 
