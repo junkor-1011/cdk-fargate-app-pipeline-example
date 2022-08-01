@@ -1,6 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-import { Duration, Stack, StackProps, aws_iam as iam, aws_apigateway as apigateway } from 'aws-cdk-lib';
+import {
+  Duration,
+  Stack,
+  StackProps,
+  aws_iam as iam,
+  aws_apigateway as apigateway,
+  aws_cognito as cognito,
+} from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
@@ -8,6 +13,16 @@ import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 export class TestAppStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
+
+    const pool = new cognito.UserPool(this, 'Pool');
+    pool.addClient('app-client', {
+      oAuth: {
+        flows: {
+          authorizationCodeGrant: true,
+        },
+        scopes: [cognito.OAuthScope.OPENID],
+      },
+    });
 
     const iamRoleForLambda = new iam.Role(this, 'iamRoleForLambda', {
       roleName: `hello-lambda-role`,
