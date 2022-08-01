@@ -23,6 +23,7 @@ export class TestAppStack extends Stack {
         scopes: [cognito.OAuthScope.OPENID],
         callbackUrls: ['http://localhost:3000/api/auth/callback/cognito'],
       },
+      refreshTokenValidity: Duration.hours(12),
     });
 
     const iamRoleForLambda = new iam.Role(this, 'iamRoleForLambda', {

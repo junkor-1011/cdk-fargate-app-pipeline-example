@@ -110,9 +110,13 @@ Object {
         "CallbackURLs": Array [
           "http://localhost:3000/api/auth/callback/cognito",
         ],
+        "RefreshTokenValidity": 720,
         "SupportedIdentityProviders": Array [
           "COGNITO",
         ],
+        "TokenValidityUnits": Object {
+          "RefreshToken": "minutes",
+        },
         "UserPoolId": Object {
           "Ref": "PoolD3F588B8",
         },
