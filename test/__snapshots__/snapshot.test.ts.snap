@@ -96,6 +96,14 @@ Object {
         },
         "EmailVerificationMessage": "The verification code to your new account is {####}",
         "EmailVerificationSubject": "Verify your new account",
+        "LambdaConfig": Object {
+          "PreTokenGeneration": Object {
+            "Fn::GetAtt": Array [
+              "preTokenGenerationLambda1F130400",
+              "Arn",
+            ],
+          },
+        },
         "SmsVerificationMessage": "The verification code to your new account is {####}",
         "VerificationMessageTemplate": Object {
           "DefaultEmailOption": "CONFIRM_WITH_CODE",
@@ -374,6 +382,83 @@ Object {
           },
         ],
         "RoleName": "hello-lambda-role",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "preTokenGenerationLambda1F130400": Object {
+      "DependsOn": Array [
+        "preTokenGenerationLambdaServiceRole0C3B4FA0",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "a7be855f0aa7f8abe4a378fb16c3a14b0a1800ea6800434bdf9afab7fe6838cc.zip",
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.lambdaHandler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "preTokenGenerationLambdaServiceRole0C3B4FA0",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs16.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "preTokenGenerationLambdaPreTokenGenerationCognitoB0148D6A": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "preTokenGenerationLambda1F130400",
+            "Arn",
+          ],
+        },
+        "Principal": "cognito-idp.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "PoolD3F588B8",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "preTokenGenerationLambdaServiceRole0C3B4FA0": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
       },
       "Type": "AWS::IAM::Role",
     },

@@ -33,6 +33,14 @@ export class TestAppStack extends Stack {
       },
     });
 
+    const preTokenGenerationLambda = new NodejsFunction(this, 'preTokenGenerationLambda', {
+      entry: 'functions/UserPoolTriggers/preTokenGeneration.ts',
+      handler: 'lambdaHandler',
+      runtime: Runtime.NODEJS_16_X,
+    });
+
+    pool.addTrigger(cognito.UserPoolOperation.PRE_TOKEN_GENERATION, preTokenGenerationLambda);
+
     const iamRoleForLambda = new iam.Role(this, 'iamRoleForLambda', {
       roleName: `hello-lambda-role`,
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
