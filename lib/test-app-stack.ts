@@ -23,6 +23,7 @@ export class TestAppStack extends Stack {
         scopes: [cognito.OAuthScope.OPENID],
         callbackUrls: ['http://localhost:3000/api/auth/callback/cognito'],
       },
+      authFlows: { adminUserPassword: true }, // use cognitoIdp:adminInitiateAuth API
       generateSecret: true,
       refreshTokenValidity: Duration.hours(12),
     });

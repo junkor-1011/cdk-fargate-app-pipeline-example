@@ -127,6 +127,10 @@ Object {
         "CallbackURLs": Array [
           "http://localhost:3000/api/auth/callback/cognito",
         ],
+        "ExplicitAuthFlows": Array [
+          "ALLOW_ADMIN_USER_PASSWORD_AUTH",
+          "ALLOW_REFRESH_TOKEN_AUTH",
+        ],
         "GenerateSecret": true,
         "RefreshTokenValidity": 720,
         "SupportedIdentityProviders": Array [
