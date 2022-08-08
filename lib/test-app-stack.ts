@@ -3,7 +3,7 @@ import {
   Stack,
   StackProps,
   // aws_iam as iam,
-  // aws_apigateway as apigateway,
+  aws_apigateway as apigateway,
   aws_cognito as cognito,
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
@@ -21,20 +21,11 @@ export class TestAppStack extends Stack {
           authorizationCodeGrant: true,
         },
         scopes: [cognito.OAuthScope.OPENID],
-        // callbackUrls: ['http://localhost:3000/api/auth/callback/cognito'],
       },
       authFlows: { adminUserPassword: true }, // use cognitoIdp:adminInitiateAuth API
       generateSecret: false,
       refreshTokenValidity: Duration.hours(12),
     });
-    /*
-    pool.addDomain('CognitoDomain', {
-      cognitoDomain: {
-        // TODO: SHOULD GET VALUE FROM SSM PARAMETER OR SECRETS MANAGER
-        domainPrefix: 'super-ultra-hyper-extreme-temporary-app', // TMP
-      },
-    });
-    */
 
     const preTokenGenerationLambda = new NodejsFunction(this, 'preTokenGenerationLambda', {
       entry: 'functions/UserPoolTriggers/preTokenGeneration.ts',
@@ -44,32 +35,29 @@ export class TestAppStack extends Stack {
 
     pool.addTrigger(cognito.UserPoolOperation.PRE_TOKEN_GENERATION, preTokenGenerationLambda);
 
-    /*
-    const iamRoleForLambda = new iam.Role(this, 'iamRoleForLambda', {
-      roleName: `hello-lambda-role`,
-      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
-      managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')],
-    });
-
     const helloLambda = new NodejsFunction(this, 'Hello', {
       entry: 'functions/hello/get.ts',
       handler: 'lambdaHandler',
       runtime: Runtime.NODEJS_16_X,
       timeout: Duration.seconds(30),
-      role: iamRoleForLambda,
+      // role: iamRoleForLambda,
       environment: {
         AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       },
       memorySize: 128,
     });
 
+    const cognitoAuthorizer = new apigateway.CognitoUserPoolsAuthorizer(this, 'cognitoAuthorizer', {
+      authorizerName: 'CognitoAuthorizer',
+      cognitoUserPools: [pool],
+    });
+
     const helloApi = new apigateway.RestApi(this, 'helloApigateway', {
       restApiName: `testapp-apigateway`,
     });
 
-    const sample = helloApi.root.addResource('hello');
-    const courseSearchIntegration = new apigateway.LambdaIntegration(helloLambda);
-    sample.addMethod('GET', courseSearchIntegration);
-    */
+    const sample = helloApi.root.addResource('hello').addMethod('GET', new apigateway.LambdaIntegration(helloLambda), {
+      authorizer: cognitoAuthorizer,
+    });
   }
 }
