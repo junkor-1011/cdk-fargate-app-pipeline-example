@@ -2,8 +2,8 @@ import {
   Duration,
   Stack,
   StackProps,
-  aws_iam as iam,
-  aws_apigateway as apigateway,
+  // aws_iam as iam,
+  // aws_apigateway as apigateway,
   aws_cognito as cognito,
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
@@ -21,18 +21,20 @@ export class TestAppStack extends Stack {
           authorizationCodeGrant: true,
         },
         scopes: [cognito.OAuthScope.OPENID],
-        callbackUrls: ['http://localhost:3000/api/auth/callback/cognito'],
+        // callbackUrls: ['http://localhost:3000/api/auth/callback/cognito'],
       },
       authFlows: { adminUserPassword: true }, // use cognitoIdp:adminInitiateAuth API
-      generateSecret: true,
+      generateSecret: false,
       refreshTokenValidity: Duration.hours(12),
     });
+    /*
     pool.addDomain('CognitoDomain', {
       cognitoDomain: {
         // TODO: SHOULD GET VALUE FROM SSM PARAMETER OR SECRETS MANAGER
         domainPrefix: 'super-ultra-hyper-extreme-temporary-app', // TMP
       },
     });
+    */
 
     const preTokenGenerationLambda = new NodejsFunction(this, 'preTokenGenerationLambda', {
       entry: 'functions/UserPoolTriggers/preTokenGeneration.ts',
@@ -42,6 +44,7 @@ export class TestAppStack extends Stack {
 
     pool.addTrigger(cognito.UserPoolOperation.PRE_TOKEN_GENERATION, preTokenGenerationLambda);
 
+    /*
     const iamRoleForLambda = new iam.Role(this, 'iamRoleForLambda', {
       roleName: `hello-lambda-role`,
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
@@ -67,5 +70,6 @@ export class TestAppStack extends Stack {
     const sample = helloApi.root.addResource('hello');
     const courseSearchIntegration = new apigateway.LambdaIntegration(helloLambda);
     sample.addMethod('GET', courseSearchIntegration);
+    */
   }
 }
