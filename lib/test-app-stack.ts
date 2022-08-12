@@ -36,7 +36,7 @@ export class TestAppStack extends Stack {
     pool.addTrigger(cognito.UserPoolOperation.PRE_TOKEN_GENERATION, preTokenGenerationLambda);
 
     const helloLambda = new NodejsFunction(this, 'Hello', {
-      entry: 'functions/hello/get.ts',
+      entry: 'functions/api-backends/hello/get.ts',
       handler: 'lambdaHandler',
       runtime: Runtime.NODEJS_16_X,
       timeout: Duration.seconds(30),
