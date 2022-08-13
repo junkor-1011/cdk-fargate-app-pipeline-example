@@ -2,7 +2,7 @@ import {
   Duration,
   Stack,
   StackProps,
-  // aws_iam as iam,
+  aws_iam as iam,
   aws_apigateway as apigateway,
   aws_cognito as cognito,
 } from 'aws-cdk-lib';
@@ -13,6 +13,15 @@ import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 export class TestAppStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
+
+    const readSSMParamLambdaRole = new iam.Role(this, 'ReadSSMParamLambdaRole', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      description: 'Role for Lambda reading param from ssm',
+    });
+    readSSMParamLambdaRole.addManagedPolicy(
+      iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
+    );
+    readSSMParamLambdaRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMReadOnlyAccess'));
 
     const pool = new cognito.UserPool(this, 'Pool');
     pool.addClient('app-client', {
@@ -31,6 +40,9 @@ export class TestAppStack extends Stack {
       entry: 'functions/UserPoolTriggers/preTokenGeneration.ts',
       handler: 'lambdaHandler',
       runtime: Runtime.NODEJS_16_X,
+      bundling: {
+        sourceMap: true,
+      },
     });
 
     pool.addTrigger(cognito.UserPoolOperation.PRE_TOKEN_GENERATION, preTokenGenerationLambda);
@@ -56,6 +68,9 @@ export class TestAppStack extends Stack {
         AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       },
       memorySize: 128,
+      bundling: {
+        sourceMap: true,
+      },
     });
 
     const deniedTestLambda = new NodejsFunction(this, 'DeniedTest', {
@@ -67,18 +82,29 @@ export class TestAppStack extends Stack {
         AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       },
       memorySize: 128,
+      bundling: {
+        sourceMap: true,
+      },
     });
 
     const tokenAuthorizerColorLambda = new NodejsFunction(this, 'ColorAuthorizerLambda', {
       entry: 'functions/authorizers/color/index.ts',
       handler: 'lambdaHandler',
       runtime: Runtime.NODEJS_16_X,
+      role: readSSMParamLambdaRole,
+      bundling: {
+        sourceMap: true,
+      },
     });
 
     const tokenAuthorizerFruitsLambda = new NodejsFunction(this, 'FruitsAuthorizerLambda', {
       entry: 'functions/authorizers/fruits/index.ts',
       handler: 'lambdaHandler',
       runtime: Runtime.NODEJS_16_X,
+      role: readSSMParamLambdaRole,
+      bundling: {
+        sourceMap: true,
+      },
     });
 
     const cognitoAuthorizer = new apigateway.CognitoUserPoolsAuthorizer(this, 'cognitoAuthorizer', {

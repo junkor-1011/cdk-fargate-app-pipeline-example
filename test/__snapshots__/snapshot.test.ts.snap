@@ -47,7 +47,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "9028fc5f4393c9ac6a930d90617352a0f094321fbb63b020fb55f98525ad34fa.zip",
+          "S3Key": "d8b0f9a98bed9b82e720ee0b88391580b4a12342c184406d7cd4688770b95da4.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -160,14 +160,14 @@ Object {
     },
     "ColorAuthorizerLambda324ACEC8": Object {
       "DependsOn": Array [
-        "ColorAuthorizerLambdaServiceRoleE7321EC0",
+        "ReadSSMParamLambdaRole2C496AC9",
       ],
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "b1f0218724081ec9eabeadf11a2672b1b868461a2a25c2956c6c43fb01f2167c.zip",
+          "S3Key": "cba1ac49b9e17538bba97cbe1e19076def4d2abdcef5e95e2ee299d23fc5a6ba.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -177,44 +177,13 @@ Object {
         "Handler": "index.lambdaHandler",
         "Role": Object {
           "Fn::GetAtt": Array [
-            "ColorAuthorizerLambdaServiceRoleE7321EC0",
+            "ReadSSMParamLambdaRole2C496AC9",
             "Arn",
           ],
         },
         "Runtime": "nodejs16.x",
       },
       "Type": "AWS::Lambda::Function",
-    },
-    "ColorAuthorizerLambdaServiceRoleE7321EC0": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
     },
     "ColorAuthorizerLambdaTestAppStackColorAuthorizer71FDF26FPermissions6414D824": Object {
       "Properties": Object {
@@ -265,7 +234,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "e423f49150238c728757bbca2677d2579cc14a64c106642c78931cd94736482c.zip",
+          "S3Key": "26553e840f36522c76356f5a3a3ba63e89aa56843e5c4b6f4f42795e3bc3fdcb.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -378,14 +347,14 @@ Object {
     },
     "FruitsAuthorizerLambdaAB18D47B": Object {
       "DependsOn": Array [
-        "FruitsAuthorizerLambdaServiceRoleC4FE4BC2",
+        "ReadSSMParamLambdaRole2C496AC9",
       ],
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "849e88bed36806dcfac22ca1c2528ac89634ec1dac903eb5ca98935f142424db.zip",
+          "S3Key": "9ba03ab8256e3caba392e6253186a823220b036e98518da24c8ecc8575e0c2f6.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -395,44 +364,13 @@ Object {
         "Handler": "index.lambdaHandler",
         "Role": Object {
           "Fn::GetAtt": Array [
-            "FruitsAuthorizerLambdaServiceRoleC4FE4BC2",
+            "ReadSSMParamLambdaRole2C496AC9",
             "Arn",
           ],
         },
         "Runtime": "nodejs16.x",
       },
       "Type": "AWS::Lambda::Function",
-    },
-    "FruitsAuthorizerLambdaServiceRoleC4FE4BC2": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
     },
     "FruitsAuthorizerLambdaTestAppStackFruitsAuthorizer4EB4EB77Permissions4DBAA83E": Object {
       "Properties": Object {
@@ -602,6 +540,50 @@ Object {
         },
       },
       "Type": "AWS::Cognito::UserPoolClient",
+    },
+    "ReadSSMParamLambdaRole2C496AC9": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Description": "Role for Lambda reading param from ssm",
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/AmazonSSMReadOnlyAccess",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
     },
     "cognitoAuthorizer9878DCCA": Object {
       "Properties": Object {
@@ -1132,7 +1114,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "98e5402f5cb6af156c6f350169244e271c03e96f2e81189fa2e8fc1a4787b5a4.zip",
+          "S3Key": "7441449058ee072c3a5000666bbceb586ed04b6bcaf2d54cf66a06e95232a013.zip",
         },
         "Environment": Object {
           "Variables": Object {

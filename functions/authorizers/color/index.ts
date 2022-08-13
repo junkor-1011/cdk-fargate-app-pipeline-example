@@ -1,13 +1,28 @@
-import type {
-  APIGatewayAuthorizerEvent,
-  // APIGatewayAuthorizerHandler,
-  APIGatewayAuthorizerResult,
-} from 'aws-lambda';
+import 'source-map-support/register';
 
-import { generatePolicy } from '../lib/utils';
+import type { APIGatewayAuthorizerEvent, APIGatewayAuthorizerResult } from 'aws-lambda';
 
-/* eslint-disable-next-line @typescript-eslint/require-await */
-export const lambdaHandler = async (event: APIGatewayAuthorizerEvent): Promise<APIGatewayAuthorizerResult> => {
+import { generatePolicy, verifyToken } from '../lib/utils';
+import { getParameter } from '../lib/aws-utils/ssm';
+
+/**
+ * modified APIGatewayAuthorizerEvent
+ *
+ * add authorizationToken
+ */
+type Event = APIGatewayAuthorizerEvent & {
+  authorizationToken: string;
+};
+
+export const lambdaHandler = async (event: Event): Promise<APIGatewayAuthorizerResult> => {
+  const type = event.type;
+  console.log('type', type);
+  const token = event.authorizationToken;
+  const issuer = await getParameter('/TESTAPP/ISSUER', true);
+  const audience = await getParameter('/TESTAPP/AUDIENCE', true);
+  const jwksuri = await getParameter('/TESTAPP/JWKS_URI', true);
+  await verifyToken(token, issuer, audience, jwksuri);
+
   const res = generatePolicy('user', 'Allow', event.methodArn);
   return res;
 };

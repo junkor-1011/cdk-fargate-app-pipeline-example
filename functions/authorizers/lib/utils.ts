@@ -1,10 +1,10 @@
 import type { APIGatewayAuthorizerResult } from 'aws-lambda';
 
-export function generatePolicy(
+export const generatePolicy = (
   principal: string,
   effect: 'Allow' | 'Deny',
   resource: string,
-): APIGatewayAuthorizerResult {
+): APIGatewayAuthorizerResult => {
   return {
     principalId: principal,
     policyDocument: {
@@ -18,4 +18,14 @@ export function generatePolicy(
       ],
     },
   };
-}
+};
+
+export const verifyToken = async (
+  token: string,
+  issuer: string,
+  audience: string,
+  jwksuri: string,
+  /* eslint-disable-next-line */
+): Promise<void> => {
+  console.log(token, issuer, audience, jwksuri);
+};
