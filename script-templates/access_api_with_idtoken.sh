@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+URL_PATH="${1:-/hello}"
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" || exit; pwd)"
 cd "${SCRIPT_DIR}" || exit
 
@@ -25,4 +27,4 @@ idToken=$(aws --profile "${AWS_PROFILE:-default}" cognito-idp admin-initiate-aut
   --query "AuthenticationResult.IdToken" \
   --output text)
 
-curl -H "Authorization: ${idToken}" -X GET "${API_URL}"
+curl -H "Authorization: ${idToken}" -X GET "${API_URL_BASE}${URL_PATH}"
