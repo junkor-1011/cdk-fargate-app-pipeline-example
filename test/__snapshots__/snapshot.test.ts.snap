@@ -47,7 +47,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "88d3e6f24370583831e162cbfdc7b2494b2c057f421e44cc29db76e46c38ca95.zip",
+          "S3Key": "9028fc5f4393c9ac6a930d90617352a0f094321fbb63b020fb55f98525ad34fa.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -98,6 +98,164 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
+    "ColorAuthorizerD6B973DF": Object {
+      "Properties": Object {
+        "AuthorizerUri": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Fn::Select": Array [
+                  1,
+                  Object {
+                    "Fn::Split": Array [
+                      ":",
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "ColorAuthorizerLambda324ACEC8",
+                          "Arn",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              ":apigateway:",
+              Object {
+                "Fn::Select": Array [
+                  3,
+                  Object {
+                    "Fn::Split": Array [
+                      ":",
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "ColorAuthorizerLambda324ACEC8",
+                          "Arn",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              ":lambda:path/2015-03-31/functions/",
+              Object {
+                "Fn::GetAtt": Array [
+                  "ColorAuthorizerLambda324ACEC8",
+                  "Arn",
+                ],
+              },
+              "/invocations",
+            ],
+          ],
+        },
+        "IdentitySource": "method.request.header.Authorization",
+        "Name": "TestAppStackColorAuthorizer71FDF26F",
+        "RestApiId": Object {
+          "Ref": "helloApigatewayD1490B0F",
+        },
+        "Type": "TOKEN",
+      },
+      "Type": "AWS::ApiGateway::Authorizer",
+    },
+    "ColorAuthorizerLambda324ACEC8": Object {
+      "DependsOn": Array [
+        "ColorAuthorizerLambdaServiceRoleE7321EC0",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "b1f0218724081ec9eabeadf11a2672b1b868461a2a25c2956c6c43fb01f2167c.zip",
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.lambdaHandler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "ColorAuthorizerLambdaServiceRoleE7321EC0",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs16.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "ColorAuthorizerLambdaServiceRoleE7321EC0": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ColorAuthorizerLambdaTestAppStackColorAuthorizer71FDF26FPermissions6414D824": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "ColorAuthorizerLambda324ACEC8",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "helloApigatewayD1490B0F",
+              },
+              "/authorizers/",
+              Object {
+                "Ref": "ColorAuthorizerD6B973DF",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
     "DeniedTestFA70CDD5": Object {
       "DependsOn": Array [
         "DeniedTestServiceRoleB416408F",
@@ -107,7 +265,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "a3024aa83a9e1ae5c5b07b1804903a003866115cf3b847eec48e4fb718f744f7.zip",
+          "S3Key": "e423f49150238c728757bbca2677d2579cc14a64c106642c78931cd94736482c.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -158,6 +316,164 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
+    "FruitsAuthorizer4E8A27AA": Object {
+      "Properties": Object {
+        "AuthorizerUri": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Fn::Select": Array [
+                  1,
+                  Object {
+                    "Fn::Split": Array [
+                      ":",
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "FruitsAuthorizerLambdaAB18D47B",
+                          "Arn",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              ":apigateway:",
+              Object {
+                "Fn::Select": Array [
+                  3,
+                  Object {
+                    "Fn::Split": Array [
+                      ":",
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "FruitsAuthorizerLambdaAB18D47B",
+                          "Arn",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              ":lambda:path/2015-03-31/functions/",
+              Object {
+                "Fn::GetAtt": Array [
+                  "FruitsAuthorizerLambdaAB18D47B",
+                  "Arn",
+                ],
+              },
+              "/invocations",
+            ],
+          ],
+        },
+        "IdentitySource": "method.request.header.Authorization",
+        "Name": "TestAppStackFruitsAuthorizer4EB4EB77",
+        "RestApiId": Object {
+          "Ref": "helloApigatewayD1490B0F",
+        },
+        "Type": "TOKEN",
+      },
+      "Type": "AWS::ApiGateway::Authorizer",
+    },
+    "FruitsAuthorizerLambdaAB18D47B": Object {
+      "DependsOn": Array [
+        "FruitsAuthorizerLambdaServiceRoleC4FE4BC2",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "849e88bed36806dcfac22ca1c2528ac89634ec1dac903eb5ca98935f142424db.zip",
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.lambdaHandler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "FruitsAuthorizerLambdaServiceRoleC4FE4BC2",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs16.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "FruitsAuthorizerLambdaServiceRoleC4FE4BC2": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FruitsAuthorizerLambdaTestAppStackFruitsAuthorizer4EB4EB77Permissions4DBAA83E": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "FruitsAuthorizerLambdaAB18D47B",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "helloApigatewayD1490B0F",
+              },
+              "/authorizers/",
+              Object {
+                "Ref": "FruitsAuthorizer4E8A27AA",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
     "Hello4A628BD4": Object {
       "DependsOn": Array [
         "HelloServiceRole1E55EA16",
@@ -167,7 +483,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "e9fd3169e87957e12c36088861a5ef323832b7eb8c11ffaa32a6a90e0f0d0d44.zip",
+          "S3Key": "e63f2a8e1bb43ba92cb61ad75e2eb81040744cb19cf4f7a8119b0de1103e837d.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -357,15 +673,15 @@ Object {
       },
       "Type": "AWS::ApiGateway::RestApi",
     },
-    "helloApigatewayDeploymentCD355D6300f45aa1974ffc8c1431dbe2c7ba9044": Object {
+    "helloApigatewayDeploymentCD355D6316b8df9369c1de87f61c8ccce03cbb5a": Object {
       "DependsOn": Array [
         "helloApigatewayhelloGET66EA629E",
-        "helloApigatewayhellolambdaauthorizertesthelloacceptGETA60713D8",
-        "helloApigatewayhellolambdaauthorizertesthelloaccept76EB8707",
-        "helloApigatewayhellolambdaauthorizertesthellodeniedGET0EEC235D",
-        "helloApigatewayhellolambdaauthorizertesthellodeniedA8802A0A",
-        "helloApigatewayhellolambdaauthorizertest97CC4217",
         "helloApigatewayhello91568F63",
+        "helloApigatewaylambdaauthorizertesthelloacceptGET5FC2734D",
+        "helloApigatewaylambdaauthorizertesthelloaccept11EFC59F",
+        "helloApigatewaylambdaauthorizertesthellodeniedGETDA1B6445",
+        "helloApigatewaylambdaauthorizertesthellodenied2026FC11",
+        "helloApigatewaylambdaauthorizertestB48C19FB",
       ],
       "Properties": Object {
         "Description": "Automatically created by the RestApi construct",
@@ -381,7 +697,7 @@ Object {
       ],
       "Properties": Object {
         "DeploymentId": Object {
-          "Ref": "helloApigatewayDeploymentCD355D6300f45aa1974ffc8c1431dbe2c7ba9044",
+          "Ref": "helloApigatewayDeploymentCD355D6316b8df9369c1de87f61c8ccce03cbb5a",
         },
         "RestApiId": Object {
           "Ref": "helloApigatewayD1490B0F",
@@ -526,10 +842,13 @@ Object {
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "helloApigatewayhellolambdaauthorizertest97CC4217": Object {
+    "helloApigatewaylambdaauthorizertestB48C19FB": Object {
       "Properties": Object {
         "ParentId": Object {
-          "Ref": "helloApigatewayhello91568F63",
+          "Fn::GetAtt": Array [
+            "helloApigatewayD1490B0F",
+            "RootResourceId",
+          ],
         },
         "PathPart": "lambda-authorizer-test",
         "RestApiId": Object {
@@ -538,10 +857,10 @@ Object {
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "helloApigatewayhellolambdaauthorizertesthelloaccept76EB8707": Object {
+    "helloApigatewaylambdaauthorizertesthelloaccept11EFC59F": Object {
       "Properties": Object {
         "ParentId": Object {
-          "Ref": "helloApigatewayhellolambdaauthorizertest97CC4217",
+          "Ref": "helloApigatewaylambdaauthorizertestB48C19FB",
         },
         "PathPart": "hello-accept",
         "RestApiId": Object {
@@ -550,9 +869,12 @@ Object {
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "helloApigatewayhellolambdaauthorizertesthelloacceptGETA60713D8": Object {
+    "helloApigatewaylambdaauthorizertesthelloacceptGET5FC2734D": Object {
       "Properties": Object {
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "CUSTOM",
+        "AuthorizerId": Object {
+          "Ref": "ColorAuthorizerD6B973DF",
+        },
         "HttpMethod": "GET",
         "Integration": Object {
           "IntegrationHttpMethod": "POST",
@@ -582,7 +904,7 @@ Object {
           },
         },
         "ResourceId": Object {
-          "Ref": "helloApigatewayhellolambdaauthorizertesthelloaccept76EB8707",
+          "Ref": "helloApigatewaylambdaauthorizertesthelloaccept11EFC59F",
         },
         "RestApiId": Object {
           "Ref": "helloApigatewayD1490B0F",
@@ -590,7 +912,7 @@ Object {
       },
       "Type": "AWS::ApiGateway::Method",
     },
-    "helloApigatewayhellolambdaauthorizertesthelloacceptGETApiPermissionTestAppStackhelloApigateway472B4703GEThellolambdaauthorizertesthelloacceptC0BF7238": Object {
+    "helloApigatewaylambdaauthorizertesthelloacceptGETApiPermissionTestAppStackhelloApigateway472B4703GETlambdaauthorizertesthelloaccept3C948C2F": Object {
       "Properties": Object {
         "Action": "lambda:InvokeFunction",
         "FunctionName": Object {
@@ -624,14 +946,14 @@ Object {
               Object {
                 "Ref": "helloApigatewayDeploymentStageprod7A3EC8D8",
               },
-              "/GET/hello/lambda-authorizer-test/hello-accept",
+              "/GET/lambda-authorizer-test/hello-accept",
             ],
           ],
         },
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "helloApigatewayhellolambdaauthorizertesthelloacceptGETApiPermissionTestTestAppStackhelloApigateway472B4703GEThellolambdaauthorizertesthelloacceptEE1B602A": Object {
+    "helloApigatewaylambdaauthorizertesthelloacceptGETApiPermissionTestTestAppStackhelloApigateway472B4703GETlambdaauthorizertesthelloaccept91B13977": Object {
       "Properties": Object {
         "Action": "lambda:InvokeFunction",
         "FunctionName": Object {
@@ -661,17 +983,17 @@ Object {
               Object {
                 "Ref": "helloApigatewayD1490B0F",
               },
-              "/test-invoke-stage/GET/hello/lambda-authorizer-test/hello-accept",
+              "/test-invoke-stage/GET/lambda-authorizer-test/hello-accept",
             ],
           ],
         },
       },
       "Type": "AWS::Lambda::Permission",
     },
-    "helloApigatewayhellolambdaauthorizertesthellodeniedA8802A0A": Object {
+    "helloApigatewaylambdaauthorizertesthellodenied2026FC11": Object {
       "Properties": Object {
         "ParentId": Object {
-          "Ref": "helloApigatewayhellolambdaauthorizertest97CC4217",
+          "Ref": "helloApigatewaylambdaauthorizertestB48C19FB",
         },
         "PathPart": "hello-denied",
         "RestApiId": Object {
@@ -680,9 +1002,90 @@ Object {
       },
       "Type": "AWS::ApiGateway::Resource",
     },
-    "helloApigatewayhellolambdaauthorizertesthellodeniedGET0EEC235D": Object {
+    "helloApigatewaylambdaauthorizertesthellodeniedGETApiPermissionTestAppStackhelloApigateway472B4703GETlambdaauthorizertesthellodenied978585D5": Object {
       "Properties": Object {
-        "AuthorizationType": "NONE",
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "DeniedTestFA70CDD5",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "helloApigatewayD1490B0F",
+              },
+              "/",
+              Object {
+                "Ref": "helloApigatewayDeploymentStageprod7A3EC8D8",
+              },
+              "/GET/lambda-authorizer-test/hello-denied",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "helloApigatewaylambdaauthorizertesthellodeniedGETApiPermissionTestTestAppStackhelloApigateway472B4703GETlambdaauthorizertesthellodeniedF8AEF0BB": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "DeniedTestFA70CDD5",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "helloApigatewayD1490B0F",
+              },
+              "/test-invoke-stage/GET/lambda-authorizer-test/hello-denied",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "helloApigatewaylambdaauthorizertesthellodeniedGETDA1B6445": Object {
+      "Properties": Object {
+        "AuthorizationType": "CUSTOM",
+        "AuthorizerId": Object {
+          "Ref": "FruitsAuthorizer4E8A27AA",
+        },
         "HttpMethod": "GET",
         "Integration": Object {
           "IntegrationHttpMethod": "POST",
@@ -712,91 +1115,13 @@ Object {
           },
         },
         "ResourceId": Object {
-          "Ref": "helloApigatewayhellolambdaauthorizertesthellodeniedA8802A0A",
+          "Ref": "helloApigatewaylambdaauthorizertesthellodenied2026FC11",
         },
         "RestApiId": Object {
           "Ref": "helloApigatewayD1490B0F",
         },
       },
       "Type": "AWS::ApiGateway::Method",
-    },
-    "helloApigatewayhellolambdaauthorizertesthellodeniedGETApiPermissionTestAppStackhelloApigateway472B4703GEThellolambdaauthorizertesthellodenied5776E129": Object {
-      "Properties": Object {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
-            "DeniedTestFA70CDD5",
-            "Arn",
-          ],
-        },
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "arn:",
-              Object {
-                "Ref": "AWS::Partition",
-              },
-              ":execute-api:",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ":",
-              Object {
-                "Ref": "AWS::AccountId",
-              },
-              ":",
-              Object {
-                "Ref": "helloApigatewayD1490B0F",
-              },
-              "/",
-              Object {
-                "Ref": "helloApigatewayDeploymentStageprod7A3EC8D8",
-              },
-              "/GET/hello/lambda-authorizer-test/hello-denied",
-            ],
-          ],
-        },
-      },
-      "Type": "AWS::Lambda::Permission",
-    },
-    "helloApigatewayhellolambdaauthorizertesthellodeniedGETApiPermissionTestTestAppStackhelloApigateway472B4703GEThellolambdaauthorizertesthellodenied7D0DCFD9": Object {
-      "Properties": Object {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
-            "DeniedTestFA70CDD5",
-            "Arn",
-          ],
-        },
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "arn:",
-              Object {
-                "Ref": "AWS::Partition",
-              },
-              ":execute-api:",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ":",
-              Object {
-                "Ref": "AWS::AccountId",
-              },
-              ":",
-              Object {
-                "Ref": "helloApigatewayD1490B0F",
-              },
-              "/test-invoke-stage/GET/hello/lambda-authorizer-test/hello-denied",
-            ],
-          ],
-        },
-      },
-      "Type": "AWS::Lambda::Permission",
     },
     "preTokenGenerationLambda1F130400": Object {
       "DependsOn": Array [

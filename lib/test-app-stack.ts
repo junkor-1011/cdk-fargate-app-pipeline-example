@@ -69,9 +69,29 @@ export class TestAppStack extends Stack {
       memorySize: 128,
     });
 
+    const tokenAuthorizerColorLambda = new NodejsFunction(this, 'ColorAuthorizerLambda', {
+      entry: 'functions/authorizers/color/index.ts',
+      handler: 'lambdaHandler',
+      runtime: Runtime.NODEJS_16_X,
+    });
+
+    const tokenAuthorizerFruitsLambda = new NodejsFunction(this, 'FruitsAuthorizerLambda', {
+      entry: 'functions/authorizers/fruits/index.ts',
+      handler: 'lambdaHandler',
+      runtime: Runtime.NODEJS_16_X,
+    });
+
     const cognitoAuthorizer = new apigateway.CognitoUserPoolsAuthorizer(this, 'cognitoAuthorizer', {
       authorizerName: 'CognitoAuthorizer',
       cognitoUserPools: [pool],
+    });
+
+    const colorAuthorizer = new apigateway.TokenAuthorizer(this, 'ColorAuthorizer', {
+      handler: tokenAuthorizerColorLambda,
+    });
+
+    const fruitsAuthorizer = new apigateway.TokenAuthorizer(this, 'FruitsAuthorizer', {
+      handler: tokenAuthorizerFruitsLambda,
     });
 
     const helloApi = new apigateway.RestApi(this, 'helloApigateway', {
@@ -82,12 +102,16 @@ export class TestAppStack extends Stack {
     hello.addMethod('GET', new apigateway.LambdaIntegration(helloLambda), {
       authorizer: cognitoAuthorizer,
     });
-    const lambdaAuthorizerTest = hello.addResource('lambda-authorizer-test');
+    const lambdaAuthorizerTest = helloApi.root.addResource('lambda-authorizer-test');
     lambdaAuthorizerTest
       .addResource('hello-accept')
-      .addMethod('GET', new apigateway.LambdaIntegration(acceptTestLambda), {});
+      .addMethod('GET', new apigateway.LambdaIntegration(acceptTestLambda), {
+        authorizer: colorAuthorizer,
+      });
     lambdaAuthorizerTest
       .addResource('hello-denied')
-      .addMethod('GET', new apigateway.LambdaIntegration(deniedTestLambda), {});
+      .addMethod('GET', new apigateway.LambdaIntegration(deniedTestLambda), {
+        authorizer: fruitsAuthorizer,
+      });
   }
 }
