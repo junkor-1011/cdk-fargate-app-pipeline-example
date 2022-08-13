@@ -47,6 +47,28 @@ export class TestAppStack extends Stack {
       memorySize: 128,
     });
 
+    const acceptTestLambda = new NodejsFunction(this, 'AcceptTest', {
+      entry: 'functions/api-backends/lambda-authorizer-test/hello-accept/get.ts',
+      handler: 'lambdaHandler',
+      runtime: Runtime.NODEJS_16_X,
+      timeout: Duration.seconds(30),
+      environment: {
+        AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      },
+      memorySize: 128,
+    });
+
+    const deniedTestLambda = new NodejsFunction(this, 'DeniedTest', {
+      entry: 'functions/api-backends/lambda-authorizer-test/hello-denied/get.ts',
+      handler: 'lambdaHandler',
+      runtime: Runtime.NODEJS_16_X,
+      timeout: Duration.seconds(30),
+      environment: {
+        AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      },
+      memorySize: 128,
+    });
+
     const cognitoAuthorizer = new apigateway.CognitoUserPoolsAuthorizer(this, 'cognitoAuthorizer', {
       authorizerName: 'CognitoAuthorizer',
       cognitoUserPools: [pool],
@@ -56,8 +78,16 @@ export class TestAppStack extends Stack {
       restApiName: `testapp-apigateway`,
     });
 
-    helloApi.root.addResource('hello').addMethod('GET', new apigateway.LambdaIntegration(helloLambda), {
+    const hello = helloApi.root.addResource('hello');
+    hello.addMethod('GET', new apigateway.LambdaIntegration(helloLambda), {
       authorizer: cognitoAuthorizer,
     });
+    const lambdaAuthorizerTest = hello.addResource('lambda-authorizer-test');
+    lambdaAuthorizerTest
+      .addResource('hello-accept')
+      .addMethod('GET', new apigateway.LambdaIntegration(acceptTestLambda), {});
+    lambdaAuthorizerTest
+      .addResource('hello-denied')
+      .addMethod('GET', new apigateway.LambdaIntegration(deniedTestLambda), {});
   }
 }
