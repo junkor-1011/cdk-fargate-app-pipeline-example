@@ -13,3 +13,4 @@
 - https://dev.classmethod.jp/articles/using-codecommit-git-repository/
 - https://dev.classmethod.jp/articles/api-gateway-rest-apicognito-user-pool-authorizerlambda-i-tried-building-a-functional-configuration-with-aws-cdk-v2/
 - https://zenn.dev/ytkhs/articles/efc0a777a73f15
+- https://github.com/awslabs/aws-support-tools/tree/master/Cognito/decode-verify-jwt
