@@ -91,6 +91,7 @@ export class TestAppStack extends Stack {
       entry: 'functions/authorizers/color/index.ts',
       handler: 'lambdaHandler',
       runtime: Runtime.NODEJS_16_X,
+      timeout: Duration.seconds(20),
       role: readSSMParamLambdaRole,
       bundling: {
         sourceMap: true,
@@ -101,6 +102,7 @@ export class TestAppStack extends Stack {
       entry: 'functions/authorizers/fruits/index.ts',
       handler: 'lambdaHandler',
       runtime: Runtime.NODEJS_16_X,
+      timeout: Duration.seconds(20),
       role: readSSMParamLambdaRole,
       bundling: {
         sourceMap: true,

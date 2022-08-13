@@ -167,7 +167,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "cba1ac49b9e17538bba97cbe1e19076def4d2abdcef5e95e2ee299d23fc5a6ba.zip",
+          "S3Key": "152d82139f2d6d36e927a0f737ef8da58ef4836add31b24419bca003f35c1f8a.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -182,6 +182,7 @@ Object {
           ],
         },
         "Runtime": "nodejs16.x",
+        "Timeout": 20,
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -354,7 +355,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "9ba03ab8256e3caba392e6253186a823220b036e98518da24c8ecc8575e0c2f6.zip",
+          "S3Key": "d830be2eda17fe3ec270e4489db2f37d52036a719039d099ad747b218ed8d26a.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -369,6 +370,7 @@ Object {
           ],
         },
         "Runtime": "nodejs16.x",
+        "Timeout": 20,
       },
       "Type": "AWS::Lambda::Function",
     },
