@@ -56,7 +56,7 @@ export class TestAppStack extends Stack {
       restApiName: `testapp-apigateway`,
     });
 
-    const sample = helloApi.root.addResource('hello').addMethod('GET', new apigateway.LambdaIntegration(helloLambda), {
+    helloApi.root.addResource('hello').addMethod('GET', new apigateway.LambdaIntegration(helloLambda), {
       authorizer: cognitoAuthorizer,
     });
   }
