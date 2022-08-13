@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eu
 
 URL_PATH="${1:-/hello}"
 

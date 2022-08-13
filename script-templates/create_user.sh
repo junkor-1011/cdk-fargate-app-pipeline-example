@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eu
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" || exit; pwd)"
 cd "${SCRIPT_DIR}" || exit
