@@ -13,7 +13,9 @@ describe('snapshot test', () => {
   });
   it("BackendStack's Snapshot test", () => {
     const app = new cdk.App();
-    const stack = new BackendStack(app, 'TestAppStack');
+    const stack = new BackendStack(app, 'TestAppStack', {
+      stageName: 'backend',
+    });
     const template = Template.fromStack(stack).toJSON();
 
     expect(template).toMatchSnapshot();

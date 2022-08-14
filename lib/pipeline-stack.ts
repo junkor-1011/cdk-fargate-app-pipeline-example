@@ -28,8 +28,12 @@ export class PipelineStack extends Stack {
         },
       },
     });
-    const devStage = new ApplicationStage(this, 'Dev');
-    const prodStage = new ApplicationStage(this, 'Prod');
+    const devStage = new ApplicationStage(this, 'Dev', {
+      stageName: 'dev',
+    });
+    const prodStage = new ApplicationStage(this, 'Prod', {
+      stageName: 'prod',
+    });
     pipeline.addStage(devStage);
     pipeline.addStage(prodStage, {
       pre: [new pipelines.ManualApprovalStep('PromoteToProd')],
@@ -39,13 +43,15 @@ export class PipelineStack extends Stack {
 
 // TODO: Stage VPC
 type StageStackProps = StackProps & {
-  // stageName: string;
+  stageName: string;
 };
 
 class ApplicationStage extends Stage {
-  constructor(scope: Construct, id: string, props?: StageStackProps) {
+  constructor(scope: Construct, id: string, props: StageStackProps) {
     super(scope, id, props);
 
-    new BackendStack(this, 'BackendStack', {});
+    new BackendStack(this, 'BackendStack', {
+      stageName: props.stageName,
+    });
   }
 }

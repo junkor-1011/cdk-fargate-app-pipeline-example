@@ -10,8 +10,12 @@ import { Construct } from 'constructs';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 
+type StageStackProps = StackProps & {
+  stageName: string;
+};
+
 export class BackendStack extends Stack {
-  constructor(scope: Construct, id: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, props: StageStackProps) {
     super(scope, id, props);
 
     const readSSMParamLambdaRole = new iam.Role(this, 'ReadSSMParamLambdaRole', {
@@ -23,8 +27,8 @@ export class BackendStack extends Stack {
     );
     readSSMParamLambdaRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMReadOnlyAccess'));
 
-    const pool = new cognito.UserPool(this, 'Pool');
-    pool.addClient('app-client', {
+    const pool = new cognito.UserPool(this, `${props.stageName}-Pool`);
+    pool.addClient(`${props.stageName}-app-client`, {
       oAuth: {
         flows: {
           authorizationCodeGrant: true,
@@ -110,20 +114,22 @@ export class BackendStack extends Stack {
     });
 
     const cognitoAuthorizer = new apigateway.CognitoUserPoolsAuthorizer(this, 'cognitoAuthorizer', {
-      authorizerName: 'CognitoAuthorizer',
+      authorizerName: `${props.stageName}-CognitoAurhorizer`,
       cognitoUserPools: [pool],
     });
 
     const colorAuthorizer = new apigateway.TokenAuthorizer(this, 'ColorAuthorizer', {
+      authorizerName: `${props.stageName}-ColorAurhorizer`,
       handler: tokenAuthorizerColorLambda,
     });
 
     const fruitsAuthorizer = new apigateway.TokenAuthorizer(this, 'FruitsAuthorizer', {
+      authorizerName: `${props.stageName}-FruitsAurhorizer`,
       handler: tokenAuthorizerFruitsLambda,
     });
 
     const helloApi = new apigateway.RestApi(this, 'helloApigateway', {
-      restApiName: `testapp-apigateway`,
+      restApiName: `${props.stageName}-testapp-apigateway`,
     });
 
     const hello = helloApi.root.addResource('hello');

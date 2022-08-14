@@ -4,7 +4,9 @@ import * as TestApp from '../lib/backend-stack';
 
 test('fine-grained test', () => {
   const app = new cdk.App();
-  const stack = new TestApp.BackendStack(app, 'CognitoAppTestStack');
+  const stack = new TestApp.BackendStack(app, 'CognitoAppTestStack', {
+    stageName: 'test',
+  });
   // THEN
   const template = Template.fromStack(stack);
 

@@ -150,7 +150,7 @@ Object {
           ],
         },
         "IdentitySource": "method.request.header.Authorization",
-        "Name": "TestAppStackColorAuthorizer71FDF26F",
+        "Name": "backend-ColorAurhorizer",
         "RestApiId": Object {
           "Ref": "helloApigatewayD1490B0F",
         },
@@ -338,7 +338,7 @@ Object {
           ],
         },
         "IdentitySource": "method.request.header.Authorization",
-        "Name": "TestAppStackFruitsAuthorizer4EB4EB77",
+        "Name": "backend-FruitsAurhorizer",
         "RestApiId": Object {
           "Ref": "helloApigatewayD1490B0F",
         },
@@ -474,75 +474,6 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "PoolD3F588B8": Object {
-      "DeletionPolicy": "Retain",
-      "Properties": Object {
-        "AccountRecoverySetting": Object {
-          "RecoveryMechanisms": Array [
-            Object {
-              "Name": "verified_phone_number",
-              "Priority": 1,
-            },
-            Object {
-              "Name": "verified_email",
-              "Priority": 2,
-            },
-          ],
-        },
-        "AdminCreateUserConfig": Object {
-          "AllowAdminCreateUserOnly": true,
-        },
-        "EmailVerificationMessage": "The verification code to your new account is {####}",
-        "EmailVerificationSubject": "Verify your new account",
-        "LambdaConfig": Object {
-          "PreTokenGeneration": Object {
-            "Fn::GetAtt": Array [
-              "preTokenGenerationLambda1F130400",
-              "Arn",
-            ],
-          },
-        },
-        "SmsVerificationMessage": "The verification code to your new account is {####}",
-        "VerificationMessageTemplate": Object {
-          "DefaultEmailOption": "CONFIRM_WITH_CODE",
-          "EmailMessage": "The verification code to your new account is {####}",
-          "EmailSubject": "Verify your new account",
-          "SmsMessage": "The verification code to your new account is {####}",
-        },
-      },
-      "Type": "AWS::Cognito::UserPool",
-      "UpdateReplacePolicy": "Retain",
-    },
-    "Poolappclient2D3B8A6A": Object {
-      "Properties": Object {
-        "AllowedOAuthFlows": Array [
-          "code",
-        ],
-        "AllowedOAuthFlowsUserPoolClient": true,
-        "AllowedOAuthScopes": Array [
-          "openid",
-        ],
-        "CallbackURLs": Array [
-          "https://example.com",
-        ],
-        "ExplicitAuthFlows": Array [
-          "ALLOW_ADMIN_USER_PASSWORD_AUTH",
-          "ALLOW_REFRESH_TOKEN_AUTH",
-        ],
-        "GenerateSecret": false,
-        "RefreshTokenValidity": 720,
-        "SupportedIdentityProviders": Array [
-          "COGNITO",
-        ],
-        "TokenValidityUnits": Object {
-          "RefreshToken": "minutes",
-        },
-        "UserPoolId": Object {
-          "Ref": "PoolD3F588B8",
-        },
-      },
-      "Type": "AWS::Cognito::UserPoolClient",
-    },
     "ReadSSMParamLambdaRole2C496AC9": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
@@ -587,14 +518,83 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
+    "backendPoolABA6D940": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "AccountRecoverySetting": Object {
+          "RecoveryMechanisms": Array [
+            Object {
+              "Name": "verified_phone_number",
+              "Priority": 1,
+            },
+            Object {
+              "Name": "verified_email",
+              "Priority": 2,
+            },
+          ],
+        },
+        "AdminCreateUserConfig": Object {
+          "AllowAdminCreateUserOnly": true,
+        },
+        "EmailVerificationMessage": "The verification code to your new account is {####}",
+        "EmailVerificationSubject": "Verify your new account",
+        "LambdaConfig": Object {
+          "PreTokenGeneration": Object {
+            "Fn::GetAtt": Array [
+              "preTokenGenerationLambda1F130400",
+              "Arn",
+            ],
+          },
+        },
+        "SmsVerificationMessage": "The verification code to your new account is {####}",
+        "VerificationMessageTemplate": Object {
+          "DefaultEmailOption": "CONFIRM_WITH_CODE",
+          "EmailMessage": "The verification code to your new account is {####}",
+          "EmailSubject": "Verify your new account",
+          "SmsMessage": "The verification code to your new account is {####}",
+        },
+      },
+      "Type": "AWS::Cognito::UserPool",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "backendPoolbackendappclientE0C458D8": Object {
+      "Properties": Object {
+        "AllowedOAuthFlows": Array [
+          "code",
+        ],
+        "AllowedOAuthFlowsUserPoolClient": true,
+        "AllowedOAuthScopes": Array [
+          "openid",
+        ],
+        "CallbackURLs": Array [
+          "https://example.com",
+        ],
+        "ExplicitAuthFlows": Array [
+          "ALLOW_ADMIN_USER_PASSWORD_AUTH",
+          "ALLOW_REFRESH_TOKEN_AUTH",
+        ],
+        "GenerateSecret": false,
+        "RefreshTokenValidity": 720,
+        "SupportedIdentityProviders": Array [
+          "COGNITO",
+        ],
+        "TokenValidityUnits": Object {
+          "RefreshToken": "minutes",
+        },
+        "UserPoolId": Object {
+          "Ref": "backendPoolABA6D940",
+        },
+      },
+      "Type": "AWS::Cognito::UserPoolClient",
+    },
     "cognitoAuthorizer9878DCCA": Object {
       "Properties": Object {
         "IdentitySource": "method.request.header.Authorization",
-        "Name": "CognitoAuthorizer",
+        "Name": "backend-CognitoAurhorizer",
         "ProviderARNs": Array [
           Object {
             "Fn::GetAtt": Array [
-              "PoolD3F588B8",
+              "backendPoolABA6D940",
               "Arn",
             ],
           },
@@ -653,11 +653,11 @@ Object {
     },
     "helloApigatewayD1490B0F": Object {
       "Properties": Object {
-        "Name": "testapp-apigateway",
+        "Name": "backend-testapp-apigateway",
       },
       "Type": "AWS::ApiGateway::RestApi",
     },
-    "helloApigatewayDeploymentCD355D6316b8df9369c1de87f61c8ccce03cbb5a": Object {
+    "helloApigatewayDeploymentCD355D63ee080dacbddc6a04bdff6cd82f2f3b51": Object {
       "DependsOn": Array [
         "helloApigatewayhelloGET66EA629E",
         "helloApigatewayhello91568F63",
@@ -681,7 +681,7 @@ Object {
       ],
       "Properties": Object {
         "DeploymentId": Object {
-          "Ref": "helloApigatewayDeploymentCD355D6316b8df9369c1de87f61c8ccce03cbb5a",
+          "Ref": "helloApigatewayDeploymentCD355D63ee080dacbddc6a04bdff6cd82f2f3b51",
         },
         "RestApiId": Object {
           "Ref": "helloApigatewayD1490B0F",
@@ -1146,7 +1146,7 @@ Object {
         "Principal": "cognito-idp.amazonaws.com",
         "SourceArn": Object {
           "Fn::GetAtt": Array [
-            "PoolD3F588B8",
+            "backendPoolABA6D940",
             "Arn",
           ],
         },
