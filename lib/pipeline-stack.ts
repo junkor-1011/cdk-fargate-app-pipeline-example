@@ -20,7 +20,7 @@ export class PipelineStack extends Stack {
     const pipeline = new pipelines.CodePipeline(this, 'Pipeline', {
       synth: new pipelines.ShellStep('Synth', {
         input: pipelines.CodePipelineSource.codeCommit(repo, 'main'),
-        commands: ['yarn', 'yarn build', 'yarn cdk synth BackendStack'],
+        commands: ['yarn install --ignore-scripts', 'yarn build', 'yarn cdk synth BackendStack'],
       }),
       codeBuildDefaults: {
         buildEnvironment: {
