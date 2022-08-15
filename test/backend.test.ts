@@ -10,7 +10,7 @@ test('fine-grained test', () => {
   // THEN
   const template = Template.fromStack(stack);
 
-  template.resourceCountIs('AWS::Lambda::Function', 7);
+  template.resourceCountIs('AWS::Lambda::Function', 6);
   template.hasResourceProperties('AWS::ApiGateway::Resource', {
     PathPart: 'hello',
   });

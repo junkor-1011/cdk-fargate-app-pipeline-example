@@ -166,33 +166,35 @@ export class BackendStack extends Stack {
     new ssm.StringParameter(this, `poolid-${props.stageName}`, {
       parameterName: `/TESTAPP/${props.stageName}/COGNITO_POOL_ID`,
       stringValue: pool.userPoolId,
-      type: ssm.ParameterType.SECURE_STRING,
+      type: ssm.ParameterType.STRING,
     });
     new ssm.StringParameter(this, `poolclientid-${props.stageName}`, {
       parameterName: `/TESTAPP/${props.stageName}/COGNITO_POOL_CLIENT_ID`,
       stringValue: client.userPoolClientId,
-      type: ssm.ParameterType.SECURE_STRING,
+      type: ssm.ParameterType.STRING,
     });
+    /*
     new ssm.StringParameter(this, `poolclient-secret-${props.stageName}`, {
       parameterName: `/TESTAPP/${props.stageName}/COGNITO_POOL_CLIENT_SECRET`,
       stringValue: client.userPoolClientSecret.unsafeUnwrap(),
       type: ssm.ParameterType.SECURE_STRING,
     });
+    */
 
     new ssm.StringParameter(this, `audience-${props.stageName}`, {
       parameterName: `/TESTAPP/${props.stageName}/AUDIENCE`,
       stringValue: client.userPoolClientId,
-      type: ssm.ParameterType.SECURE_STRING,
+      type: ssm.ParameterType.STRING,
     });
     new ssm.StringParameter(this, `issuer-${props.stageName}`, {
       parameterName: `/TESTAPP/${props.stageName}/ISSUER`,
       stringValue: `https://cognito-idp.${Aws.REGION}.amazonaws.com/${pool.userPoolId}`,
-      type: ssm.ParameterType.SECURE_STRING,
+      type: ssm.ParameterType.STRING,
     });
     new ssm.StringParameter(this, `jwksuri-${props.stageName}`, {
       parameterName: `/TESTAPP/${props.stageName}/JWKS_URI`,
       stringValue: `https://cognito-idp.${Aws.REGION}.amazonaws.com/${pool.userPoolId}/.well-known/jwks.json`,
-      type: ssm.ParameterType.SECURE_STRING,
+      type: ssm.ParameterType.STRING,
     });
 
     new ssm.StringParameter(this, `restapiId-${props.stageName}`, {
