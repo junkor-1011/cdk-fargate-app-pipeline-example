@@ -1718,7 +1718,7 @@ Object {
                   "Version": "1",
                 },
                 "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"24f0f4ca4233e0d73909b5c51898a78f383b704ecc51152811d87af4009aee74\\"}]",
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"1f70f868d909e351b496a06a08e9cf4714dcced5eeb4211d48128d8e5f73e820\\"}]",
                   "ProjectName": Object {
                     "Ref": "PipelineBuildSynthCdkBuildProject6BEFA8E6",
                   },
@@ -3269,7 +3269,7 @@ Object {
       \\"commands\\": [
         \\"yarn install --ignore-scripts\\",
         \\"yarn build\\",
-        \\"yarn cdk synth BackendStack FrontendStack\\"
+        \\"yarn cdk synth PipelineStack BackendStack FrontendStack\\"
       ]
     }
   },
