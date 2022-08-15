@@ -5297,6 +5297,26 @@ Object {
       },
       "Type": "AWS::EC2::Subnet",
     },
+    "vpciddevCB08950A": Object {
+      "Properties": Object {
+        "Name": "/TESTAPP/Dev/VPC_ID",
+        "Type": "String",
+        "Value": Object {
+          "Ref": "TestAppVpcDev54768C34",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "vpcidprod76BFA9E2": Object {
+      "Properties": Object {
+        "Name": "/TESTAPP/Prod/VPC_ID",
+        "Type": "String",
+        "Value": Object {
+          "Ref": "TestAppVpcProd5E4738B5",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
   },
   "Rules": Object {
     "CheckBootstrapVersion": Object {
