@@ -3,6 +3,7 @@ import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { PipelineStack } from '../lib/pipeline-stack';
 import { BackendStack } from '../lib/backend-stack';
+import { FrontendStack } from '../lib/frontend-stack';
 
 const app = new cdk.App();
 
@@ -19,5 +20,8 @@ new PipelineStack(app, 'PipelineStack', {
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
 });
 new BackendStack(app, 'BackendStack', {
+  stageName: 'manual',
+});
+new FrontendStack(app, 'FrontendStack', {
   stageName: 'manual',
 });

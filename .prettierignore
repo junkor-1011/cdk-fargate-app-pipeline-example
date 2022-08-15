@@ -1,0 +1,13 @@
+*.js
+!jest.config.js
+!.prettierrc.js
+!.eslintrc.js
+*.d.ts
+!@types/*.d.ts
+node_modules
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+images/**/*

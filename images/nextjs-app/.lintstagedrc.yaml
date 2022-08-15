@@ -1,0 +1,9 @@
+'src/**/*.{ts,tsx}':
+  - eslint --fix
+  - prettier --write
+'*.js':
+  - prettier --write
+'*.{css,less,sass,scss}':
+  - stylelint --fix
+'*.{json,md,yml,yaml}':
+  - prettier --write

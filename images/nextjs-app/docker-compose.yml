@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  app:
+    container_name: app
+    image: '${NEXT_APP_IMAGE:-nextjs_app}'
+    build:
+      context: .
+      dockerfile: '${DOCKERFILE:-Dockerfile}'
+    ports:
+      - '${PORT:-3000}:3000'

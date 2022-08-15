@@ -9,9 +9,9 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest --passWithNoTests",
-    "format": "prettier --write --ignore-path .gitignore .",
-    "lint": "eslint . --ignore-path .gitignore --ext .ts",
-    "lint:fix": "eslint . --ignore-path .gitignore --ext .ts --fix",
+    "format": "prettier --write --ignore-path .prettierignore .",
+    "lint": "eslint . --ext .ts --ignore-path .eslintignore",
+    "lint:fix": "eslint . --ext .ts --fix --ignore-path .eslintignore",
     "cdk": "cdk",
     "prepare": "husky install"
   },

@@ -5,6 +5,7 @@ import * as pipelines from 'aws-cdk-lib/pipelines';
 
 // import { TestAppStack } from '../lib/test-app-stack';
 import { BackendStack } from '../lib/backend-stack';
+import { FrontendStack } from '../lib/frontend-stack';
 
 export class PipelineStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -51,6 +52,9 @@ class ApplicationStage extends Stage {
     super(scope, id, props);
 
     new BackendStack(this, 'BackendStack', {
+      stageName: props.stageName,
+    });
+    new FrontendStack(this, 'FrontendStack', {
       stageName: props.stageName,
     });
   }
