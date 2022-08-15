@@ -1231,7 +1231,7 @@ Object {
           Object {
             "Essential": true,
             "Image": Object {
-              "Fn::Sub": "\${AWS::AccountId}.dkr.ecr.\${AWS::Region}.\${AWS::URLSuffix}/cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}:18e54720b431a23dc2bd08ec095da858cfe0e85954e5711e936d35d04d2911a9",
+              "Fn::Sub": "\${AWS::AccountId}.dkr.ecr.\${AWS::Region}.\${AWS::URLSuffix}/cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}:c59de83ab4a97733df89824dd84483c3b4912bdcc08202fa425119690485f00b",
             },
             "Name": "WebContainer",
           },
@@ -1456,7 +1456,7 @@ Object {
                   "Version": "1",
                 },
                 "Configuration": Object {
-                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"4ea1c9318551acca714bdf8af6bdc1a04c4b91abf4858d4d4c30065c4ff794bd\\"}]",
+                  "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"24f0f4ca4233e0d73909b5c51898a78f383b704ecc51152811d87af4009aee74\\"}]",
                   "ProjectName": Object {
                     "Ref": "PipelineBuildSynthCdkBuildProject6BEFA8E6",
                   },
@@ -2314,7 +2314,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-TestAppStack-Dev/TestAppStackDevFrontendStackE56654A9.assets.json\\\\\\" --verbose publish \\\\\\"18e54720b431a23dc2bd08ec095da858cfe0e85954e5711e936d35d04d2911a9:current_account-current_region\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-TestAppStack-Dev/TestAppStackDevFrontendStackE56654A9.assets.json\\\\\\" --verbose publish \\\\\\"c59de83ab4a97733df89824dd84483c3b4912bdcc08202fa425119690485f00b:current_account-current_region\\\\\\"\\"
       ]
     }
   }
@@ -2937,7 +2937,7 @@ Object {
       \\"commands\\": [
         \\"yarn install --ignore-scripts\\",
         \\"yarn build\\",
-        \\"yarn cdk synth BackendStack\\"
+        \\"yarn cdk synth BackendStack FrontendStack\\"
       ]
     }
   },
