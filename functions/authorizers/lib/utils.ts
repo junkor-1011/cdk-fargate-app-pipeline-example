@@ -36,9 +36,13 @@ type VerifiedTokenInfo = JwtPayload & {
 
 export const verifyToken = async (token: string): Promise<VerifiedTokenInfo> => {
   // TODO: get parameters at once.
-  const issuer = await getParameter('/TESTAPP/ISSUER', true);
-  const audience = await getParameter('/TESTAPP/AUDIENCE', true);
-  const jwksuri = await getParameter('/TESTAPP/JWKS_URI', true);
+  const { stageName } = process.env;
+  if (!stageName) {
+    throw new Error('failed to get env: stagename');
+  }
+  const issuer = await getParameter(`/TESTAPP/${stageName}/ISSUER`, true);
+  const audience = await getParameter(`/TESTAPP/${stageName}/AUDIENCE`, true);
+  const jwksuri = await getParameter(`/TESTAPP/${stageName}/JWKS_URI`, true);
 
   const decoded = decode(token, { complete: true });
   if (!decoded || !decoded['header'] || !decoded['header'].kid) {

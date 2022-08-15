@@ -47,6 +47,9 @@ export class BackendStack extends Stack {
       bundling: {
         sourceMap: true,
       },
+      environment: {
+        stageName: props.stageName,
+      },
     });
 
     pool.addTrigger(cognito.UserPoolOperation.PRE_TOKEN_GENERATION, preTokenGenerationLambda);
@@ -59,6 +62,7 @@ export class BackendStack extends Stack {
       // role: iamRoleForLambda,
       environment: {
         AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+        stageName: props.stageName,
       },
       memorySize: 128,
     });
@@ -70,6 +74,7 @@ export class BackendStack extends Stack {
       timeout: Duration.seconds(30),
       environment: {
         AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+        stageName: props.stageName,
       },
       memorySize: 128,
       bundling: {
@@ -84,6 +89,7 @@ export class BackendStack extends Stack {
       timeout: Duration.seconds(30),
       environment: {
         AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+        stageName: props.stageName,
       },
       memorySize: 128,
       bundling: {
@@ -100,6 +106,9 @@ export class BackendStack extends Stack {
       bundling: {
         sourceMap: true,
       },
+      environment: {
+        stageName: props.stageName,
+      },
     });
 
     const tokenAuthorizerFruitsLambda = new NodejsFunction(this, 'FruitsAuthorizerLambda', {
@@ -110,6 +119,9 @@ export class BackendStack extends Stack {
       role: readSSMParamLambdaRole,
       bundling: {
         sourceMap: true,
+      },
+      environment: {
+        stageName: props.stageName,
       },
     });
 

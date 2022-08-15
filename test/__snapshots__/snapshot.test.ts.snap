@@ -52,6 +52,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "stageName": "test",
           },
         },
         "Handler": "index.lambdaHandler",
@@ -167,11 +168,12 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "152d82139f2d6d36e927a0f737ef8da58ef4836add31b24419bca003f35c1f8a.zip",
+          "S3Key": "24c12c1a4e0b9d5211f383336e1660cd35bcc0dc33d0add212c742630af053c5.zip",
         },
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "stageName": "test",
           },
         },
         "Handler": "index.lambdaHandler",
@@ -240,6 +242,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "stageName": "test",
           },
         },
         "Handler": "index.lambdaHandler",
@@ -355,11 +358,12 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "55e72e9dfb747986a02ee4ae7b356bce358f57f45b00c1aebfd3bddb50f06779.zip",
+          "S3Key": "146bf4565ac446644c00a579e343a54f1cb756a41680ec4ff32d49f5be92e936.zip",
         },
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "stageName": "test",
           },
         },
         "Handler": "index.lambdaHandler",
@@ -428,6 +432,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "stageName": "test",
           },
         },
         "Handler": "index.lambdaHandler",
@@ -1052,6 +1057,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "stageName": "test",
           },
         },
         "Handler": "index.lambdaHandler",
@@ -2693,7 +2699,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-PipelineStack-Dev/PipelineStackDevBackendStack40997B00.assets.json\\\\\\" --verbose publish \\\\\\"152d82139f2d6d36e927a0f737ef8da58ef4836add31b24419bca003f35c1f8a:current_account-current_region\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-PipelineStack-Dev/PipelineStackDevBackendStack40997B00.assets.json\\\\\\" --verbose publish \\\\\\"24c12c1a4e0b9d5211f383336e1660cd35bcc0dc33d0add212c742630af053c5:current_account-current_region\\\\\\"\\"
       ]
     }
   }
@@ -2737,7 +2743,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-PipelineStack-Dev/PipelineStackDevBackendStack40997B00.assets.json\\\\\\" --verbose publish \\\\\\"55e72e9dfb747986a02ee4ae7b356bce358f57f45b00c1aebfd3bddb50f06779:current_account-current_region\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-PipelineStack-Dev/PipelineStackDevBackendStack40997B00.assets.json\\\\\\" --verbose publish \\\\\\"146bf4565ac446644c00a579e343a54f1cb756a41680ec4ff32d49f5be92e936:current_account-current_region\\\\\\"\\"
       ]
     }
   }
