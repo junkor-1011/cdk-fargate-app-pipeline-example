@@ -18,9 +18,11 @@ export class FrontendStack extends Stack {
       directory: 'images/nextjs-app',
       networkMode: NetworkMode.HOST,
     });
-    const container = fargateTaskDefinition.addContainer('WebContainer', {
+    fargateTaskDefinition.addContainer('WebContainer', {
       image: ecs.ContainerImage.fromDockerImageAsset(asset),
-      // ... other options here ...
+      environment: {
+        stageName: props.stageName,
+      },
     });
   }
 }

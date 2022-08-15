@@ -38,6 +38,60 @@ Object {
     },
   },
   "Resources": Object {
+    "AWS679f53fac002430cb0da5b7982bd22872D164C4C": Object {
+      "DependsOn": Array [
+        "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "6dbd112fe448437b3438da4382c72fccbb7d2ee1543db222620d7447fffebc50.zip",
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
     "AcceptTest7B7FF621": Object {
       "DependsOn": Array [
         "AcceptTestServiceRole0D4E0F1C",
@@ -168,7 +222,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "24c12c1a4e0b9d5211f383336e1660cd35bcc0dc33d0add212c742630af053c5.zip",
+          "S3Key": "cce70dedf0c2138f846357ce2c1ae4ffbe877f63ccdbddee3e114342cdc96bbe.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -358,7 +412,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "146bf4565ac446644c00a579e343a54f1cb756a41680ec4ff32d49f5be92e936.zip",
+          "S3Key": "7e8ce895f4f30f8ae9f111e9490e60ba9126b0237f5407ce88eaf71db502f852.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -522,6 +576,16 @@ Object {
         ],
       },
       "Type": "AWS::IAM::Role",
+    },
+    "audiencetestA0D945E1": Object {
+      "Properties": Object {
+        "Name": "/TESTAPP/test/AUDIENCE",
+        "Type": "SecureString",
+        "Value": Object {
+          "Ref": "testPooltestappclientEE5BA073",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
     },
     "cognitoAuthorizer9878DCCA": Object {
       "Properties": Object {
@@ -1043,6 +1107,84 @@ Object {
       },
       "Type": "AWS::ApiGateway::Method",
     },
+    "issuertestE683BACC": Object {
+      "Properties": Object {
+        "Name": "/TESTAPP/test/ISSUER",
+        "Type": "SecureString",
+        "Value": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "https://cognito-idp.",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ".amazonaws.com/",
+              Object {
+                "Ref": "testPoolD0BA313C",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "jwksuritest5DCB506B": Object {
+      "Properties": Object {
+        "Name": "/TESTAPP/test/JWKS_URI",
+        "Type": "SecureString",
+        "Value": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "https://cognito-idp.",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ".amazonaws.com/",
+              Object {
+                "Ref": "testPoolD0BA313C",
+              },
+              "/.well-known/jwks.json",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "poolclientidtest7855D46C": Object {
+      "Properties": Object {
+        "Name": "/TESTAPP/test/COGNITO_POOL_CLIENT_ID",
+        "Type": "SecureString",
+        "Value": Object {
+          "Ref": "testPooltestappclientEE5BA073",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "poolclientsecrettest7F5C2F9F": Object {
+      "Properties": Object {
+        "Name": "/TESTAPP/test/COGNITO_POOL_CLIENT_SECRET",
+        "Type": "SecureString",
+        "Value": Object {
+          "Fn::GetAtt": Array [
+            "testPooltestappclientDescribeCognitoUserPoolClientB22A1F44",
+            "UserPoolClient.ClientSecret",
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "poolidtestB6DFC108": Object {
+      "Properties": Object {
+        "Name": "/TESTAPP/test/COGNITO_POOL_ID",
+        "Type": "SecureString",
+        "Value": Object {
+          "Ref": "testPoolD0BA313C",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
     "preTokenGenerationLambda1F130400": Object {
       "DependsOn": Array [
         "preTokenGenerationLambdaServiceRole0C3B4FA0",
@@ -1121,6 +1263,47 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
+    "restapiIdtest1FFC11A9": Object {
+      "Properties": Object {
+        "Name": "/TESTAPP/test/REST_API_ID",
+        "Type": "String",
+        "Value": Object {
+          "Ref": "helloApigatewayD1490B0F",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "restapiUrltest3D65AE97": Object {
+      "Properties": Object {
+        "Name": "/TESTAPP/test/REST_API_BASE_URL",
+        "Type": "String",
+        "Value": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "https://",
+              Object {
+                "Ref": "helloApigatewayD1490B0F",
+              },
+              ".execute-api.",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ".",
+              Object {
+                "Ref": "AWS::URLSuffix",
+              },
+              "/",
+              Object {
+                "Ref": "helloApigatewayDeploymentStageprod7A3EC8D8",
+              },
+              "/",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
     "testPoolD0BA313C": Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {
@@ -1160,6 +1343,73 @@ Object {
       "Type": "AWS::Cognito::UserPool",
       "UpdateReplacePolicy": "Retain",
     },
+    "testPooltestappclientDescribeCognitoUserPoolClientB22A1F44": Object {
+      "DeletionPolicy": "Delete",
+      "DependsOn": Array [
+        "testPooltestappclientDescribeCognitoUserPoolClientCustomResourcePolicy4DEE2AA0",
+      ],
+      "Properties": Object {
+        "Create": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "{\\"region\\":\\"",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              "\\",\\"service\\":\\"CognitoIdentityServiceProvider\\",\\"action\\":\\"describeUserPoolClient\\",\\"parameters\\":{\\"UserPoolId\\":\\"",
+              Object {
+                "Ref": "testPoolD0BA313C",
+              },
+              "\\",\\"ClientId\\":\\"",
+              Object {
+                "Ref": "testPooltestappclientEE5BA073",
+              },
+              "\\"},\\"physicalResourceId\\":{\\"id\\":\\"",
+              Object {
+                "Ref": "testPooltestappclientEE5BA073",
+              },
+              "\\"}}",
+            ],
+          ],
+        },
+        "InstallLatestAwsSdk": true,
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::DescribeCognitoUserPoolClient",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testPooltestappclientDescribeCognitoUserPoolClientCustomResourcePolicy4DEE2AA0": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "cognito-idp:DescribeUserPoolClient",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "testPoolD0BA313C",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "testPooltestappclientDescribeCognitoUserPoolClientCustomResourcePolicy4DEE2AA0",
+        "Roles": Array [
+          Object {
+            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
     "testPooltestappclientEE5BA073": Object {
       "Properties": Object {
         "AllowedOAuthFlows": Array [
@@ -1176,7 +1426,7 @@ Object {
           "ALLOW_ADMIN_USER_PASSWORD_AUTH",
           "ALLOW_REFRESH_TOKEN_AUTH",
         ],
-        "GenerateSecret": false,
+        "GenerateSecret": true,
         "RefreshTokenValidity": 720,
         "SupportedIdentityProviders": Array [
           "COGNITO",
@@ -1235,6 +1485,12 @@ Object {
       "Properties": Object {
         "ContainerDefinitions": Array [
           Object {
+            "Environment": Array [
+              Object {
+                "Name": "stageName",
+                "Value": "test",
+              },
+            ],
             "Essential": true,
             "Image": Object {
               "Fn::Sub": "\${AWS::AccountId}.dkr.ecr.\${AWS::Region}.\${AWS::URLSuffix}/cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}:c59de83ab4a97733df89824dd84483c3b4912bdcc08202fa425119690485f00b",
@@ -1697,6 +1953,32 @@ Object {
                   },
                 ],
                 "Name": "FileAsset6",
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
+                    "PipelineCodeBuildActionRole226DB0CB",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "ProjectName": Object {
+                    "Ref": "PipelineAssetsFileAsset7A51C54D0",
+                  },
+                },
+                "InputArtifacts": Array [
+                  Object {
+                    "Name": "Synth_Output",
+                  },
+                ],
+                "Name": "FileAsset7",
                 "RoleArn": Object {
                   "Fn::GetAtt": Array [
                     "PipelineCodeBuildActionRole226DB0CB",
@@ -2699,7 +2981,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-PipelineStack-Dev/PipelineStackDevBackendStack40997B00.assets.json\\\\\\" --verbose publish \\\\\\"24c12c1a4e0b9d5211f383336e1660cd35bcc0dc33d0add212c742630af053c5:current_account-current_region\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-PipelineStack-Dev/PipelineStackDevBackendStack40997B00.assets.json\\\\\\" --verbose publish \\\\\\"cce70dedf0c2138f846357ce2c1ae4ffbe877f63ccdbddee3e114342cdc96bbe:current_account-current_region\\\\\\"\\"
       ]
     }
   }
@@ -2743,7 +3025,51 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-PipelineStack-Dev/PipelineStackDevBackendStack40997B00.assets.json\\\\\\" --verbose publish \\\\\\"146bf4565ac446644c00a579e343a54f1cb756a41680ec4ff32d49f5be92e936:current_account-current_region\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-PipelineStack-Dev/PipelineStackDevBackendStack40997B00.assets.json\\\\\\" --verbose publish \\\\\\"7e8ce895f4f30f8ae9f111e9490e60ba9126b0237f5407ce88eaf71db502f852:current_account-current_region\\\\\\"\\"
+      ]
+    }
+  }
+}",
+          "Type": "CODEPIPELINE",
+        },
+      },
+      "Type": "AWS::CodeBuild::Project",
+    },
+    "PipelineAssetsFileAsset7A51C54D0": Object {
+      "Properties": Object {
+        "Artifacts": Object {
+          "Type": "CODEPIPELINE",
+        },
+        "Cache": Object {
+          "Type": "NO_CACHE",
+        },
+        "Description": "Pipeline step PipelineStack/Pipeline/Assets/FileAsset7",
+        "EncryptionKey": "alias/aws/s3",
+        "Environment": Object {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:5.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER",
+        },
+        "ServiceRole": Object {
+          "Fn::GetAtt": Array [
+            "PipelineAssetsFileRole59943A77",
+            "Arn",
+          ],
+        },
+        "Source": Object {
+          "BuildSpec": "{
+  \\"version\\": \\"0.2\\",
+  \\"phases\\": {
+    \\"install\\": {
+      \\"commands\\": [
+        \\"npm install -g cdk-assets@2\\"
+      ]
+    },
+    \\"build\\": {
+      \\"commands\\": [
+        \\"cdk-assets --path \\\\\\"assembly-PipelineStack-Dev/PipelineStackDevBackendStack40997B00.assets.json\\\\\\" --verbose publish \\\\\\"6dbd112fe448437b3438da4382c72fccbb7d2ee1543db222620d7447fffebc50:current_account-current_region\\\\\\"\\"
       ]
     }
   }
@@ -3281,6 +3607,20 @@ Object {
               "Resource": Object {
                 "Fn::GetAtt": Array [
                   "PipelineAssetsFileAsset669C72F3C",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "PipelineAssetsFileAsset7A51C54D0",
                   "Arn",
                 ],
               },

@@ -35,7 +35,7 @@ type VerifiedTokenInfo = JwtPayload & {
 };
 
 export const verifyToken = async (token: string): Promise<VerifiedTokenInfo> => {
-  // TODO: get parameters at once.
+  // TODO: using environment variable from ssm parameters
   const { stageName } = process.env;
   if (!stageName) {
     throw new Error('failed to get env: stagename');

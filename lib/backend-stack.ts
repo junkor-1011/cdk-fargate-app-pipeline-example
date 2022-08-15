@@ -1,4 +1,5 @@
 import {
+  Aws,
   Duration,
   Stack,
   StackProps,
@@ -9,6 +10,7 @@ import {
 import { Construct } from 'constructs';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as ssm from 'aws-cdk-lib/aws-ssm';
 
 type StageStackProps = StackProps & {
   stageName: string;
@@ -28,7 +30,7 @@ export class BackendStack extends Stack {
     readSSMParamLambdaRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMReadOnlyAccess'));
 
     const pool = new cognito.UserPool(this, `${props.stageName}-Pool`);
-    pool.addClient(`${props.stageName}-app-client`, {
+    const client = pool.addClient(`${props.stageName}-app-client`, {
       oAuth: {
         flows: {
           authorizationCodeGrant: true,
@@ -36,7 +38,7 @@ export class BackendStack extends Stack {
         scopes: [cognito.OAuthScope.OPENID],
       },
       authFlows: { adminUserPassword: true }, // use cognitoIdp:adminInitiateAuth API
-      generateSecret: false,
+      generateSecret: true,
       refreshTokenValidity: Duration.hours(12),
     });
 
@@ -140,15 +142,15 @@ export class BackendStack extends Stack {
       handler: tokenAuthorizerFruitsLambda,
     });
 
-    const helloApi = new apigateway.RestApi(this, 'helloApigateway', {
+    const api = new apigateway.RestApi(this, 'helloApigateway', {
       restApiName: `${props.stageName}-testapp-apigateway`,
     });
 
-    const hello = helloApi.root.addResource('hello');
+    const hello = api.root.addResource('hello');
     hello.addMethod('GET', new apigateway.LambdaIntegration(helloLambda), {
       authorizer: cognitoAuthorizer,
     });
-    const lambdaAuthorizerTest = helloApi.root.addResource('lambda-authorizer-test');
+    const lambdaAuthorizerTest = api.root.addResource('lambda-authorizer-test');
     lambdaAuthorizerTest
       .addResource('hello-accept')
       .addMethod('GET', new apigateway.LambdaIntegration(acceptTestLambda), {
@@ -159,5 +161,49 @@ export class BackendStack extends Stack {
       .addMethod('GET', new apigateway.LambdaIntegration(deniedTestLambda), {
         authorizer: fruitsAuthorizer,
       });
+
+    // SSM Parameteres
+    new ssm.StringParameter(this, `poolid-${props.stageName}`, {
+      parameterName: `/TESTAPP/${props.stageName}/COGNITO_POOL_ID`,
+      stringValue: pool.userPoolId,
+      type: ssm.ParameterType.SECURE_STRING,
+    });
+    new ssm.StringParameter(this, `poolclientid-${props.stageName}`, {
+      parameterName: `/TESTAPP/${props.stageName}/COGNITO_POOL_CLIENT_ID`,
+      stringValue: client.userPoolClientId,
+      type: ssm.ParameterType.SECURE_STRING,
+    });
+    new ssm.StringParameter(this, `poolclient-secret-${props.stageName}`, {
+      parameterName: `/TESTAPP/${props.stageName}/COGNITO_POOL_CLIENT_SECRET`,
+      stringValue: client.userPoolClientSecret.unsafeUnwrap(),
+      type: ssm.ParameterType.SECURE_STRING,
+    });
+
+    new ssm.StringParameter(this, `audience-${props.stageName}`, {
+      parameterName: `/TESTAPP/${props.stageName}/AUDIENCE`,
+      stringValue: client.userPoolClientId,
+      type: ssm.ParameterType.SECURE_STRING,
+    });
+    new ssm.StringParameter(this, `issuer-${props.stageName}`, {
+      parameterName: `/TESTAPP/${props.stageName}/ISSUER`,
+      stringValue: `https://cognito-idp.${Aws.REGION}.amazonaws.com/${pool.userPoolId}`,
+      type: ssm.ParameterType.SECURE_STRING,
+    });
+    new ssm.StringParameter(this, `jwksuri-${props.stageName}`, {
+      parameterName: `/TESTAPP/${props.stageName}/JWKS_URI`,
+      stringValue: `https://cognito-idp.${Aws.REGION}.amazonaws.com/${pool.userPoolId}/.well-known/jwks.json`,
+      type: ssm.ParameterType.SECURE_STRING,
+    });
+
+    new ssm.StringParameter(this, `restapiId-${props.stageName}`, {
+      parameterName: `/TESTAPP/${props.stageName}/REST_API_ID`,
+      stringValue: api.restApiId,
+      type: ssm.ParameterType.STRING,
+    });
+    new ssm.StringParameter(this, `restapiUrl-${props.stageName}`, {
+      parameterName: `/TESTAPP/${props.stageName}/REST_API_BASE_URL`,
+      stringValue: api.url,
+      type: ssm.ParameterType.STRING,
+    });
   }
 }
