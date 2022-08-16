@@ -1576,6 +1576,7 @@ Object {
       "Properties": Object {
         "ContainerDefinitions": Array [
           Object {
+            "Cpu": 1024,
             "Environment": Array [
               Object {
                 "Name": "stageName",
@@ -1598,6 +1599,7 @@ Object {
                 "awslogs-stream-prefix": "Service-test",
               },
             },
+            "Memory": 2048,
             "Name": "app-container-test",
             "PortMappings": Array [
               Object {
@@ -1608,7 +1610,7 @@ Object {
             "Secrets": Array [],
           },
         ],
-        "Cpu": "256",
+        "Cpu": "1024",
         "ExecutionRoleArn": Object {
           "Fn::GetAtt": Array [
             "ServicetestTaskDefExecutionRole51507FFC",
@@ -1616,7 +1618,7 @@ Object {
           ],
         },
         "Family": "FrontendStackServicetestTaskDef05BB79A1",
-        "Memory": "512",
+        "Memory": "2048",
         "NetworkMode": "awsvpc",
         "RequiresCompatibilities": Array [
           "FARGATE",

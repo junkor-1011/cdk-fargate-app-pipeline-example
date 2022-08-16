@@ -1,5 +1,10 @@
-import { Stack, StackProps, Duration } from 'aws-cdk-lib';
+import {
+  Stack,
+  StackProps,
+  // Duration,
+} from 'aws-cdk-lib';
 import { DockerImageAsset, NetworkMode } from 'aws-cdk-lib/aws-ecr-assets';
+// import * as logs from 'aws-cdk-lib/aws-logs';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ecsPatterns from 'aws-cdk-lib/aws-ecs-patterns';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -49,7 +54,7 @@ export class FrontendStack extends Stack {
       subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
     });
 
-    const service = new ecsPatterns.ApplicationLoadBalancedFargateService(this, `Service-${props.stageName}`, {
+    new ecsPatterns.ApplicationLoadBalancedFargateService(this, `Service-${props.stageName}`, {
       cluster,
       taskImageOptions: {
         image: ecs.ContainerImage.fromDockerImageAsset(asset),
@@ -59,12 +64,23 @@ export class FrontendStack extends Stack {
           stageName: props.stageName,
         },
         secrets: {},
+        /*
+        logDriver: new ecs.AwsLogDriver({
+          logGroup: new logs.LogGroup(this, `ecs-loggroup-${props.stageName}`, {
+            logGroupName: `/testapp/ecs-service/nextjs-app/${props.stageName}`,
+          }),
+          streamPrefix: `AppLogStream-${props.stageName}`,
+          mode: ecs.AwsLogDriverMode.NON_BLOCKING,
+        })
+        */
       },
       taskSubnets: {
         subnets: selection.subnets,
       },
       loadBalancer: alb,
       listenerPort: 80,
+      memoryLimitMiB: 2048,
+      cpu: 1024,
     });
   }
 }
