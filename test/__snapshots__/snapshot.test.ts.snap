@@ -168,7 +168,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "cce70dedf0c2138f846357ce2c1ae4ffbe877f63ccdbddee3e114342cdc96bbe.zip",
+          "S3Key": "266473d99e6577c6c88fc1c67d739c54908b754c10e33cf3d8ece8e42626f2d5.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -358,7 +358,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "7e8ce895f4f30f8ae9f111e9490e60ba9126b0237f5407ce88eaf71db502f852.zip",
+          "S3Key": "2b7132c83bf5277df735d4eb1cf8a1aef44f33798ef27e2e2c16fd80b1fe8d19.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -553,6 +553,7 @@ Object {
       "Type": "AWS::ApiGateway::Authorizer",
     },
     "helloApigatewayAccountD0841D91": Object {
+      "DeletionPolicy": "Retain",
       "DependsOn": Array [
         "helloApigatewayD1490B0F",
       ],
@@ -565,8 +566,10 @@ Object {
         },
       },
       "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
     },
     "helloApigatewayCloudWatchRole4D45C3C0": Object {
+      "DeletionPolicy": "Retain",
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -596,6 +599,7 @@ Object {
         ],
       },
       "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
     },
     "helloApigatewayD1490B0F": Object {
       "Properties": Object {
@@ -1576,7 +1580,6 @@ Object {
       "Properties": Object {
         "ContainerDefinitions": Array [
           Object {
-            "Cpu": 1024,
             "Environment": Array [
               Object {
                 "Name": "stageName",
@@ -1599,7 +1602,6 @@ Object {
                 "awslogs-stream-prefix": "Service-test",
               },
             },
-            "Memory": 2048,
             "Name": "app-container-test",
             "PortMappings": Array [
               Object {
@@ -3582,7 +3584,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-PipelineStack-Dev/PipelineStackDevBackendStack40997B00.assets.json\\\\\\" --verbose publish \\\\\\"cce70dedf0c2138f846357ce2c1ae4ffbe877f63ccdbddee3e114342cdc96bbe:current_account-current_region\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-PipelineStack-Dev/PipelineStackDevBackendStack40997B00.assets.json\\\\\\" --verbose publish \\\\\\"266473d99e6577c6c88fc1c67d739c54908b754c10e33cf3d8ece8e42626f2d5:current_account-current_region\\\\\\"\\"
       ]
     }
   }
@@ -3626,7 +3628,7 @@ Object {
     },
     \\"build\\": {
       \\"commands\\": [
-        \\"cdk-assets --path \\\\\\"assembly-PipelineStack-Dev/PipelineStackDevBackendStack40997B00.assets.json\\\\\\" --verbose publish \\\\\\"7e8ce895f4f30f8ae9f111e9490e60ba9126b0237f5407ce88eaf71db502f852:current_account-current_region\\\\\\"\\"
+        \\"cdk-assets --path \\\\\\"assembly-PipelineStack-Dev/PipelineStackDevBackendStack40997B00.assets.json\\\\\\" --verbose publish \\\\\\"2b7132c83bf5277df735d4eb1cf8a1aef44f33798ef27e2e2c16fd80b1fe8d19:current_account-current_region\\\\\\"\\"
       ]
     }
   }
